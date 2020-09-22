@@ -28,13 +28,28 @@ namespace SpellChecker
 			if (First.Length < Second.Length)
 				Swap();
 
-			StringBuilder strBuilder = new StringBuilder();
-			foreach (var t in First.Except(Second))
-				strBuilder.Append(t);
+      if (First.Contains(Second))
+      {
+        char c = Second[0];
+        int posBeg = First.IndexOf(c, StringComparison.OrdinalIgnoreCase);
+        c = Second[Second.Length - 1];
+        int posFin = First.LastIndexOfAny(new char[] { c }) + 1;
 
-			if (strBuilder.Length > 1)
-				return true;
+        if (posBeg > 1 || First.Length - posFin > 1) /*||
+					Second.Length + 1 > First.Length - First.Except(Second).Count())*/
+          return true;
+      }
+      // find count different symbols in string
+      else
+      {
+        StringBuilder strBuilder = new StringBuilder();
+				foreach (var t in First.Except(Second))
+					strBuilder.Append(t);
 
+				if (First.Contains(strBuilder.ToString()) && (strBuilder.Length > 1 ||
+					Second.Length + 1 == First.Length - First.Except(Second).Count()))
+					return true;
+			}
 			return false;
 		}
 

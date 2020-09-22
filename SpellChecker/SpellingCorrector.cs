@@ -42,9 +42,10 @@ namespace SpellChecker
 				for (int i = 0; i < dist0 + dist1 + dist2; i++)
 					ListWordsByDistance.Add(i, new List<string>());
 
+				StringCorrector strCor = null;
 				foreach (var d in Dictionary)
 				{
-					StringCorrector strCor = new StringCorrector(w.TrimEnd('\n'), d.TrimEnd('\n'));
+				 strCor = new StringCorrector(w.TrimEnd('\n'), d.TrimEnd('\n'));
 					distance = strCor.LevenshteinDistance();
 
 					// word in the dictionary
@@ -87,7 +88,7 @@ namespace SpellChecker
 						resStr.Append($"{{{string.Join(' ', ListWordsByDistance[dist2])}}} ");
 				}
 				// more then 2 edit
-				if (distance > 2 && !flag)
+				if ((distance > 2 || strCor.IsAdjacent()) && !flag)
 					resStr.Append($"{{{w}?}} ");
 
 			}
