@@ -39,16 +39,14 @@ namespace SpellChecker
 					Second.Length + 1 > First.Length - First.Except(Second).Count())*/
           return true;
       }
-      // find count different symbols in string
+      //find count different symbols in string
       else
       {
-        StringBuilder strBuilder = new StringBuilder();
-				foreach (var t in First.Except(Second))
-					strBuilder.Append(t);
-
-				if (First.Contains(strBuilder.ToString()) && (strBuilder.Length > 1 ||
-					Second.Length + 1 == First.Length - First.Except(Second).Count()))
-					return true;
+        for (int i = 0; i < First.Length - 1; i++)
+				{					
+					if (First.Remove(i, 2).Contains(Second))
+						return true;
+				}
 			}
 			return false;
 		}
